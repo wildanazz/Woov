@@ -15,6 +15,7 @@ module.exports = (app) => {
       }),
     ],
     async (req, res) => {
+      const { host } = req.headers;
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({
@@ -38,7 +39,7 @@ module.exports = (app) => {
           confirmationCode: token,
         });
         await newUser.save(() => {
-          sendConfirmatonEmail(newUser.email, newUser.confirmationCode);
+          sendConfirmatonEmail(host, newUser);
         });
       } catch (err) {
         console.log(err);

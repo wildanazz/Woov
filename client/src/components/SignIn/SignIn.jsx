@@ -35,13 +35,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = (props) => {
-  const { match, signInUserConnect, verifyUserConnect } = props;
+  const { auth, match, signInUserConnect, verifyUserConnect } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
+    if (auth.userId) {
+      window.location.href = '/';
+    }
     if (match.path === '/confirm/:confirmationCode') {
       verifyUserConnect(match.params.confirmationCode);
     }
@@ -134,7 +137,11 @@ const SignIn = (props) => {
   );
 };
 
-export default connect(null, {
+const mapStateToProps = ({ auth }) => {
+  return { auth };
+};
+
+export default connect(mapStateToProps, {
   signInUserConnect: signInUser,
   verifyUserConnect: verifyUser,
 })(SignIn);

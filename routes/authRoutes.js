@@ -58,6 +58,7 @@ module.exports = (app) => {
   });
 
   app.post('/api/reset/confirm/email', async (req, res) => {
+    const { host } = req.headers;
     const { email } = req.body;
     const user = await User.findOne({ email });
     try {
@@ -67,7 +68,7 @@ module.exports = (app) => {
       const token = jwt.sign({ email }, 'password');
       user.resetPasswordToken = token;
       await user.save(() => {
-        sendRecoveryPasswordEmail(user.email, user.resetPasswordToken);
+        sendRecoveryPasswordEmail(host, user);
       });
     } catch (err) {
       console.log(err);

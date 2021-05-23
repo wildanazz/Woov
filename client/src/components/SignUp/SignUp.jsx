@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
@@ -33,12 +33,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = (props) => {
-  const { signUpUserConnect } = props;
+  const { auth, signUpUserConnect } = props;
   const classes = useStyles();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (auth.userId) {
+      window.location.href = '/';
+    }
+  });
 
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
@@ -148,4 +154,10 @@ const SignUp = (props) => {
   );
 };
 
-export default connect(null, { signUpUserConnect: signUpUser })(SignUp);
+const mapStateToProps = ({ auth }) => {
+  return { auth };
+};
+
+export default connect(mapStateToProps, { signUpUserConnect: signUpUser })(
+  SignUp
+);
