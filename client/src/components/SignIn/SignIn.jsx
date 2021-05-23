@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { signInUser } from '../../actions';
+import { signInUser, verifyUser } from '../../actions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,11 +35,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = (props) => {
-  const { signInUserConnect } = props;
+  const { match, signInUserConnect, verifyUserConnect } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const classes = useStyles();
+
+  useEffect(() => {
+    if (match.path === '/confirm/:confirmationCode') {
+      verifyUserConnect(match.params.confirmationCode);
+    }
+  });
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -128,4 +134,7 @@ const SignIn = (props) => {
   );
 };
 
-export default connect(null, { signInUserConnect: signInUser })(SignIn);
+export default connect(null, {
+  signInUserConnect: signInUser,
+  verifyUserConnect: verifyUser,
+})(SignIn);

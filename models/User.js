@@ -18,6 +18,14 @@ const UserSchema = new Schema({
   picture: {
     type: String,
   },
+  status: {
+    type: String,
+    enum: ['Pending', 'Active'],
+    default: 'Pending',
+  },
+  confirmationCode: {
+    type: String,
+  },
 });
 
 mongoose.model('users', UserSchema);

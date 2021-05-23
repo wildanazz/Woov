@@ -26,6 +26,9 @@ passport.use(
       if (user.password !== password) {
         return done(null, false);
       }
+      if (user.status !== 'Active') {
+        return done(null, false);
+      }
       return done(null, user);
     }
   )
