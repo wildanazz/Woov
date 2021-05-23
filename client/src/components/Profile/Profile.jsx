@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,9 +11,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Landing = (props) => {
+const Profile = (props) => {
   const { auth } = props;
   const classes = useStyles();
+
+  useEffect(() => {
+    if (auth.userId) {
+      console.log('Fetch user data');
+    } else {
+      window.location.href = '/';
+    }
+  });
 
   const renderContent = () => {
     if (auth.userId) {
@@ -26,12 +34,11 @@ const Landing = (props) => {
             color="textPrimary"
             gutterBottom
           >
-            Hi!
+            This is your profile!
           </Typography>
         </Container>
       );
     }
-
     return (
       <Container maxWidth="sm">
         <Typography
@@ -41,12 +48,7 @@ const Landing = (props) => {
           color="textPrimary"
           gutterBottom
         >
-          Welcome!
-        </Typography>
-        <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          Something short and leading about the collection below—its contents,
-          the creator, etc. Make it short and sweet, but not too short so folks
-          don&apos;t simply skip over it entirely.
+          Loading!
         </Typography>
       </Container>
     );
@@ -64,4 +66,4 @@ const mapStateToProps = ({ auth }) => {
   return { auth };
 };
 
-export default connect(mapStateToProps)(Landing);
+export default connect(mapStateToProps)(Profile);

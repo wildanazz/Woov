@@ -9,6 +9,7 @@ import SignIn from '../SignIn/SignIn';
 import FormEmail from '../FormEmail/FormEmail';
 import FormResetPassword from '../FormResetPassword/FormResetPassword';
 import SignUp from '../SignUp/SignUp';
+import Profile from '../Profile/Profile';
 
 const App = (props) => {
   const { fetchUserIdConnect } = props;
@@ -33,6 +34,7 @@ const App = (props) => {
               component={FormResetPassword}
             />
             <Route path="/confirm/:confirmationCode" exact component={SignIn} />
+            <Route path="/profile" exact component={Profile} />
           </Switch>
         </div>
       </Router>

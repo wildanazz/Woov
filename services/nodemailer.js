@@ -9,23 +9,24 @@ const transport = nodemailer.createTransport({
 });
 
 module.exports = {
-  sendConfirmatonEmail: (email, confirmationCode) => {
+  sendConfirmatonEmail: (host, user) => {
+    const { email, confirmationCode } = user;
     try {
       transport.sendMail({
         to: email,
         from: 'wildanazzwa@gmail.com',
         subject: 'Please confirm your account',
         html: `<h1>Email Confirmation</h1>
-          <h2>Hello ${email}</h2>
+          <h2>Hi ${email}</h2>
           <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-          <a href=http://localhost:3000/confirm/${confirmationCode}> Click here</a>
-          </div>`,
+          <a href=http://${host}/confirm/${confirmationCode}> Click here</a>`,
       });
     } catch (err) {
       console.log(err);
     }
   },
-  sendRecoveryPasswordEmail: (email, resetPasswordToken) => {
+  sendRecoveryPasswordEmail: (host, user) => {
+    const { email, resetPasswordToken } = user;
     try {
       transport.sendMail({
         to: email,
@@ -34,8 +35,8 @@ module.exports = {
         html: `<h1>Reset Password</h1>
         <h2>Hello ${email}</h2>
         <p>Please click on the following link to reset your password</p>
-        <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
-        <a href=http://localhost:3000/reset/password/${resetPasswordToken}> Click here</a>`,
+        <a href=http://${host}/reset/password/${resetPasswordToken}> Click here</a>
+        <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`,
       });
     } catch (err) {
       console.log(err);
