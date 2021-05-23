@@ -1,10 +1,32 @@
 const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
+
+const { OAuth2 } = google.auth;
+
+const oauth2Client = new OAuth2(
+  '787392375813-dd3hejgqnq0iig7ps69mo30dg26gs14p.apps.googleusercontent.com',
+  '4jTpTQHcua38CFRz9XCCRkEO',
+  'https://developers.google.com/oauthplayground'
+);
+
+oauth2Client.setCredentials({
+  refresh_token:
+    '1//04PAZggyTGjIWCgYIARAAGAQSNwF-L9IrVBLGJ1kXBCU8IBDg11No-BQ2W4i0351tY-tlAqbAVEp1cT_Am1ONxuc5gWiqV-iW4fE',
+});
+
+const accessToken = oauth2Client.getAccessToken();
 
 const transport = nodemailer.createTransport({
   service: 'gmail',
   auth: {
+    type: 'OAuth2',
     user: 'wildanazzwa@gmail.com',
-    pass: 'Interceptor24',
+    clientId:
+      '787392375813-dd3hejgqnq0iig7ps69mo30dg26gs14p.apps.googleusercontent.com',
+    clientSecret: '4jTpTQHcua38CFRz9XCCRkEO',
+    refreshToken:
+      '1//04PAZggyTGjIWCgYIARAAGAQSNwF-L9IrVBLGJ1kXBCU8IBDg11No-BQ2W4i0351tY-tlAqbAVEp1cT_Am1ONxuc5gWiqV-iW4fE',
+    accessToken,
   },
 });
 
