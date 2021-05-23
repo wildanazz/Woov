@@ -10,4 +10,14 @@ module.exports = (app) => {
       target: 'http://localhost:5000',
     })
   );
+  app.use(
+    createProxyMiddleware('/api/reset/confirm/email', {
+      target: 'http://localhost:5000',
+    })
+  );
+  app.use(
+    createProxyMiddleware('/api/reset/password/*', {
+      target: 'http://localhost:5000',
+    })
+  );
 };

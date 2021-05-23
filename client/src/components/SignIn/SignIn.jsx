@@ -59,7 +59,7 @@ const SignIn = (props) => {
     setRememberMe(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     signInUserConnect(email, password, rememberMe);
   };
@@ -122,7 +122,7 @@ const SignIn = (props) => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to="/">Forgot password?</Link>
+              <Link to="/reset/confirm/email">Forgot password?</Link>
             </Grid>
             <Grid item>
               <Link to="/signup">Dont have an account? Sign Up</Link>

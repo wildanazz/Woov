@@ -26,6 +26,9 @@ const UserSchema = new Schema({
   confirmationCode: {
     type: String,
   },
+  resetPasswordToken: {
+    type: String,
+  },
 });
 
 mongoose.model('users', UserSchema);

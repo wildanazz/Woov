@@ -26,16 +26,36 @@ export const signInUser = (email, password, rememberMe) => async (dispatch) => {
   }
 };
 
+export const emailConfirmation = (email) => async () => {
+  try {
+    await axios.post('/api/reset/confirm/email', { email });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const resetPassword =
+  (password, confirmPassword, resetPasswordToken) => async () => {
+    try {
+      await axios.post(`/api/reset/password/${resetPasswordToken}`, {
+        password,
+        confirmPassword,
+      });
+      history.push('/signin');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 export const signUpUser =
   (firstName, lastName, email, password) => async () => {
     try {
-      const response = await axios.post('/api/signup', {
+      await axios.post('/api/signup', {
         firstName,
         lastName,
         email,
         password,
       });
-      console.log(response);
       history.push('/signin');
     } catch (err) {
       console.log(err);

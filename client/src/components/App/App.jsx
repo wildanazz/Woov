@@ -6,6 +6,8 @@ import history from '../../history';
 import Header from '../Header/Header';
 import Landing from '../Landing/Landing';
 import SignIn from '../SignIn/SignIn';
+import FormEmail from '../FormEmail/FormEmail';
+import FormResetPassword from '../FormResetPassword/FormResetPassword';
 import SignUp from '../SignUp/SignUp';
 
 const App = (props) => {
@@ -24,6 +26,12 @@ const App = (props) => {
             <Route path="/" exact component={Landing} />
             <Route path="/signup" exact component={SignUp} />
             <Route path="/signin" exact component={SignIn} />
+            <Route path="/reset/confirm/email" exact component={FormEmail} />
+            <Route
+              path="/reset/password/:resetPasswordToken"
+              exact
+              component={FormResetPassword}
+            />
             <Route path="/confirm/:confirmationCode" exact component={SignIn} />
           </Switch>
         </div>
