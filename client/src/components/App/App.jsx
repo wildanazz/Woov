@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import { fetchUserId } from '../../actions';
 import history from '../../history';
 import Header from '../Header/Header';
 import Landing from '../Landing/Landing';
@@ -11,13 +9,7 @@ import FormResetPassword from '../FormResetPassword/FormResetPassword';
 import SignUp from '../SignUp/SignUp';
 import Profile from '../Profile/Profile';
 
-const App = (props) => {
-  const { fetchUserIdConnect } = props;
-
-  useEffect(() => {
-    fetchUserIdConnect();
-  });
-
+const App = () => {
   return (
     <div>
       <Router history={history}>
@@ -42,4 +34,4 @@ const App = (props) => {
   );
 };
 
-export default connect(null, { fetchUserIdConnect: fetchUserId })(App);
+export default App;

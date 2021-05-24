@@ -55,11 +55,11 @@ const headersDataSignedOut = [
 ];
 
 const Header = (props) => {
-  const { signOutUserConnect, auth } = props;
+  const { auth, signOutUserConnect } = props;
   const classes = useStyles();
 
   const getMenuButtons = () => {
-    if (auth.userId) {
+    if (auth.user) {
       return headersDataSignedIn.map(({ label, href }) => {
         if (label === 'Profile') {
           return (

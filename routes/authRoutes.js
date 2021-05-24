@@ -12,33 +12,18 @@ module.exports = (app) => {
     res.status(200).send(req.user);
   });
 
-  app.get(
-    '/auth/google',
-    passport.authenticate('google', {
-      scope: ['profile', 'email'],
-    })
-  );
-
-  app.get(
-    '/auth/google/callback',
-    passport.authenticate('google'),
-    (req, res) => {
-      res.redirect('/');
-    }
-  );
-
   app.post('/api/signin', passport.authenticate('local'), (req, res) => {
     if (req.body.rememberMe) {
       req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
     } else {
       req.session.cookie.expires = false;
     }
-    res.sendStatus(200);
+    res.status(200).send({ message: 'Sign In Success!' });
   });
 
   app.get('/api/signout', (req, res) => {
     req.session.destroy();
-    res.status(200).redirect('/');
+    res.status(200).send({ message: 'Logout Success!' });
   });
 
   app.get('/api/auth/confirm/:confirmationCode', async (req, res) => {
@@ -48,14 +33,15 @@ module.exports = (app) => {
         confirmationCode,
       });
       if (!user) {
-        return res.status(404).send({ message: 'User not found!' });
+        res.status(404).send({ message: 'User not found!' });
       }
       user.status = 'Active';
-      await user.save();
+      await user.save(() => {
+        res.status(200).send({ message: 'User status has been confirmed!' });
+      });
     } catch (err) {
       console.log(err);
     }
-    return res.sendStatus(200);
   });
 
   app.post('/api/reset/confirm/email', async (req, res) => {
@@ -64,17 +50,17 @@ module.exports = (app) => {
     const user = await User.findOne({ email });
     try {
       if (!user) {
-        return res.status(404).send({ message: 'User not found!' });
+        res.status(404).send({ message: 'User not found!' });
       }
-      const token = jwt.sign({ email }, 'password');
+      const token = jwt.sign({ email }, 'drowssap');
       user.resetPasswordToken = token;
       await user.save(() => {
         sendRecoveryPasswordEmail(host, user);
+        res.status(200).send({ message: 'Confirmation email has been sent!' });
       });
     } catch (err) {
       console.log(err);
     }
-    return res.sendStatus(200);
   });
 
   app.post(
@@ -92,7 +78,7 @@ module.exports = (app) => {
     async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({
+        res.status(400).json({
           errors: errors.array(),
         });
       }
@@ -101,16 +87,17 @@ module.exports = (app) => {
       try {
         const user = await User.findOne({ resetPasswordToken });
         if (!user) {
-          return res.status(404).send({ message: 'User not found!' });
+          res.status(404).send({ message: 'User not found!' });
         }
         const hashPassword = bcrypt.hashSync(password, 10);
         user.password = hashPassword;
         user.resetPasswordToken = undefined;
-        await user.save();
+        await user.save(() => {
+          res.send({ message: 'Your password has been reset!' });
+        });
       } catch (err) {
         console.log(err);
       }
-      return res.sendStatus(200);
     }
   );
 };

@@ -32,7 +32,7 @@ app.use(
   session({
     secret: 'woov',
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
   })
 );
 app.use(passport.initialize());
@@ -40,6 +40,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 require('./routes/signUpRoutes')(app);
+require('./routes/profileRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

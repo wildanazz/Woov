@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { signUpUser } from '../../actions';
+import history from '../../history';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -41,8 +42,8 @@ const SignUp = (props) => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (auth.userId) {
-      window.location.href = '/';
+    if (auth.user) {
+      history.push('/');
     }
   });
 

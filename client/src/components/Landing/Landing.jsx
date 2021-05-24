@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { fetchUser } from '../../actions';
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -12,11 +13,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Landing = (props) => {
-  const { auth } = props;
+  const { auth, fetchUserConnect } = props;
   const classes = useStyles();
 
+  useEffect(() => {
+    fetchUserConnect();
+  }, []);
+
   const renderContent = () => {
-    if (auth.userId) {
+    if (auth.user) {
       return (
         <Container maxWidth="sm">
           <Typography
@@ -26,7 +31,7 @@ const Landing = (props) => {
             color="textPrimary"
             gutterBottom
           >
-            Hi!
+            Hi {auth.user.firstName}!
           </Typography>
         </Container>
       );
@@ -64,4 +69,6 @@ const mapStateToProps = ({ auth }) => {
   return { auth };
 };
 
-export default connect(mapStateToProps)(Landing);
+export default connect(mapStateToProps, { fetchUserConnect: fetchUser })(
+  Landing
+);

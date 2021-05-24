@@ -20,4 +20,19 @@ module.exports = (app) => {
       target: 'http://localhost:5000',
     })
   );
+  app.use(
+    createProxyMiddleware('/api/edit/profile/image/*', {
+      target: 'http://localhost:5000',
+    })
+  );
+  app.use(
+    createProxyMiddleware('/api/edit/profile/info/*', {
+      target: 'http://localhost:5000',
+    })
+  );
+  app.use(
+    createProxyMiddleware('/api/edit/profile/password/*', {
+      target: 'http://localhost:5000',
+    })
+  );
 };
