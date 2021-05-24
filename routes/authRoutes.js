@@ -1,6 +1,7 @@
 const passport = require('passport');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const { sendRecoveryPasswordEmail } = require('../services/nodemailer');
 
@@ -97,12 +98,13 @@ module.exports = (app) => {
       }
       const { resetPasswordToken } = req.params;
       const { password } = req.body;
-      const user = await User.findOne({ resetPasswordToken });
       try {
+        const user = await User.findOne({ resetPasswordToken });
         if (!user) {
           return res.status(404).send({ message: 'User not found!' });
         }
-        user.password = password;
+        const hashPassword = bcrypt.hashSync(password, 10);
+        user.password = hashPassword;
         user.resetPasswordToken = undefined;
         await user.save();
       } catch (err) {
