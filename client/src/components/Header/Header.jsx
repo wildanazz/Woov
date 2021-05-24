@@ -34,6 +34,10 @@ const useStyles = makeStyles(() => ({
 
 const headersDataSignedIn = [
   {
+    label: 'Upload',
+    href: '/upload',
+  },
+  {
     label: 'Profile',
     href: '/profile',
   },

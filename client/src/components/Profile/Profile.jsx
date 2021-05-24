@@ -21,8 +21,8 @@ import {
 const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
-    height: theme.spacing(8),
-    width: theme.spacing(8),
+    height: theme.spacing(13),
+    width: theme.spacing(13),
   },
   text: {
     marginTop: theme.spacing(8),
@@ -127,7 +127,10 @@ const Profile = (props) => {
           <CssBaseline />
           <div className={classes.paper}>
             <IconButton onClick={handleOpen}>
-              <Avatar className={classes.avatar} />
+              <Avatar
+                className={classes.avatar}
+                src={auth.user ? auth.user.image : ''}
+              />
             </IconButton>
             <DropzoneDialog
               open={isOpened}

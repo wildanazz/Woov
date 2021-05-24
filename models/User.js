@@ -16,9 +16,15 @@ const UserSchema = new Schema({
     type: String,
   },
   image: {
-    data: Buffer,
-    contentType: String,
+    type: String,
   },
+  videos: [
+    {
+      name: String,
+      description: String,
+      videoURL: String,
+    },
+  ],
   status: {
     type: String,
     enum: ['Pending', 'Active'],

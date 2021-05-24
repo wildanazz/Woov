@@ -8,6 +8,7 @@ import FormEmail from '../FormEmail/FormEmail';
 import FormResetPassword from '../FormResetPassword/FormResetPassword';
 import SignUp from '../SignUp/SignUp';
 import Profile from '../Profile/Profile';
+import UploadVideoForm from '../UploadVideoForm/UploadVideoForm';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
             />
             <Route path="/confirm/:confirmationCode" exact component={SignIn} />
             <Route path="/profile" exact component={Profile} />
+            <Route path="/upload" exact component={UploadVideoForm} />
           </Switch>
         </div>
       </Router>

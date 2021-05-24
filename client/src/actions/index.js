@@ -82,15 +82,17 @@ export const editProfileInfo =
     }
   };
 
-export const uploadProfilePicture = (userId, imageFile) => async () => {
+export const uploadProfilePicture = (userId, imageFile) => async (dispatch) => {
   try {
     const formData = new FormData();
     formData.append('file', imageFile[0]);
+    console.log(imageFile[0]);
     await axios.post(`/api/edit/profile/image/${userId}`, formData, {
       headers: {
         'content-type': 'multipart/form-data',
       },
     });
+    dispatch(fetchUser());
   } catch (err) {
     console.log(err);
   }
