@@ -2,6 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const User = mongoose.model('users');
 
@@ -21,13 +22,13 @@ passport.use(
     async (email, password, done) => {
       const user = await User.findOne({ email });
       if (!user) {
-        return done(null, false);
+        return done(null, false, { message: 'User not found!' });
       }
-      if (user.password !== password) {
-        return done(null, false);
+      if (!bcrypt.compareSync(password, user.password)) {
+        return done(null, false, { message: 'Invalid password!' });
       }
       if (user.status !== 'Active') {
-        return done(null, false);
+        return done(null, false, { message: 'Please activate your account!' });
       }
       return done(null, user);
     }

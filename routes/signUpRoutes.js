@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const { sendConfirmatonEmail } = require('../services/nodemailer');
 
@@ -30,12 +31,13 @@ module.exports = (app) => {
         if (user) {
           return res.status(404).send({ message: 'User already exist!' });
         }
+        const hashPassword = bcrypt.hashSync(password, 10);
         const token = jwt.sign({ email }, 'password');
         const newUser = new User({
           firstName,
           lastName,
           email,
-          password,
+          password: hashPassword,
           confirmationCode: token,
         });
         await newUser.save(() => {
